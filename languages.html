@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html {
+      background-color: #999900
+    }
+    .container {
+      background-color: white;
+      width: 70%;
+      margin: auto;
+      padding: 30px;
+      border-radius: 1%;
+    }
+    h1 {
+      color: white;
+      text-align: center;
+    }
+    a {
+      background-color: #999900;
+      padding: 5px;
+      color: white;
+      border-radius: 6%;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Programming Languages</h1>
+    <div class='container'>
+
+    </div>
+  </main>
+  <script>
+    const languages = [
+      {
+        name: 'Ruby',
+        description: 'Ruby is a dynamic, reflective, object-oriented, ' +
+        'general-purpose programming language. It was designed and developed in the mid-1990s ' +
+        'by Yukihiro Matsumoto in Japan. According to its creator, Ruby was influenced by Perl, ' +
+        'Smalltalk, Eiffel, Ada, and Lisp. It supports multiple programming paradigms, ' +
+        'including functional, object-oriented, and imperative. It also has a dynamic type ' +
+        'system and automatic memory management.'
+      },
+
+      {
+        name: 'JavaScript',
+        description: 'JavaScript is a high-level, dynamic, untyped, and interpreted ' +
+        'programming language. It has been standardized in the ECMAScript language ' +
+        'specification. Alongside HTML and CSS, JavaScript is one of the three core ' +
+        'technologies of World Wide Web content production; the majority of websites employ ' +
+        'it, and all modern Web browsers support it without the need for plug-ins. JavaScript ' +
+        'is prototype-based with first-class functions, making it a multi-paradigm language, ' +
+        'supporting object-oriented, imperative, and functional programming styles.'
+      },
+
+      {
+        name: 'Lisp',
+        description: 'Lisp (historically, LISP) is a family of computer programming languages ' +
+        'with a long history and a distinctive, fully parenthesized prefix notation. ' +
+        'Originally specified in 1958, Lisp is the second-oldest high-level programming ' +
+        'language in widespread use today. Only Fortran is older, by one year. Lisp has changed ' +
+        'since its early days, and many dialects have existed over its history. Today, the best '+
+        'known general-purpose Lisp dialects are Common Lisp and Scheme.'
+      }
+    ];
+    let container = document.querySelector('.container');
+
+    function appendLanguage(language) {
+      let div = document.createElement('div');
+      let h2 = document.createElement('h2');
+      let p = document.createElement('p');
+      let href = document.createElement('a');
+
+      div.setAttribute('data-lang', `${language.name}`);
+      div.classList.add('lang');
+      h2.textContent = language.name;
+      p.textContent = language.description.slice(0, 120) + ' ...';
+      href.textContent = 'Show More';
+      href.classList.add('more');
+
+      div.appendChild(h2);
+      div.appendChild(p);
+      div.appendChild(href);
+      container.appendChild(div);
+    }
+
+    languages.forEach(language => {
+      appendLanguage(language);
+    })
+
+    container.addEventListener('click', ({target}) => {
+      if (target.tagName === 'A') {
+        let p = target.parentElement.querySelector('p');
+        let lang = p.parentElement.getAttribute('data-lang');
+        let fullText = languages.filter(language => {
+          return language.name === lang;
+        })[0].description;
+
+        if (target.getAttribute('class') === 'more') {
+          target.textContent = 'Show Less';
+          p.textContent = fullText;
+        } else {
+          target.textContent = 'Show More';
+          p.textContent = fullText.slice(0, 120) + ' ...';
+        }
+
+        target.classList.toggle('more');
+      }
+    })
+
+  </script>
+</body>
+</html>

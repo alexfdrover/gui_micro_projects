@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    html {
+      background-color: #22596e;
+    }
+    #calculator {
+      background-color: white;
+      width: 330px;
+      margin: 0 auto;
+      margin-top: 50px;
+      padding: 5px;
+      border-radius: 3px;
+    }
+    #display, #inProgress {
+      font-size: 48px;
+      width: 330px;
+      box-sizing: border-box;
+      border-bottom: 1px solid grey;
+      text-align: right;
+      padding-bottom: 5px;
+      padding-right: 10px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    #display {
+      font-size: 18px;
+      border: none;
+      margin-top: 0;
+      padding-top: 15px;
+    }
+    a {
+      background-color: rgb(204, 204, 204);
+      width: 80px;
+      height: 50px;
+      font-family: serif;
+      font-size: 1rem;
+      color: #000;
+      box-sizing: border-box;
+      border: 0px solid black;
+      border-radius: 3px;
+      margin-bottom: 3px;
+      padding: 16px 10px;
+      text-align: center;
+    }
+    #button-pad {
+      box-sizing: border-box;
+      width: 330px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div id='calculator'>
+      <div id='display'>0</div>
+      <div id="inProgress">0</div>
+      <div id='button-pad'>
+        <a id='clearEntry'>CE</a>
+        <a id='clearAll'>C</a>
+        <a id='negate'>NEG</a>
+        <a id='/' class='operator'>/</a>
+        <a id='7' class='number'>7</a>
+        <a id='8' class='number'>8</a>
+        <a id='9' class='number'>9</a>
+        <a id='*' class='operator'>x</a>
+        <a id='4' class='number'>4</a>
+        <a id='5' class='number'>5</a>
+        <a id='6' class='number'>6</a>
+        <a id='-' class='operator'>-</a>
+        <a id='1' class='number'>1</a>
+        <a id='2' class='number'>2</a>
+        <a id='3' class='number'>3</a>
+        <a id='+' class='operator'>+</a>
+        <a id='0' class='number'>0</a>
+        <a id='.'>.</a>
+        <a id='%' class='operator'>%</a>
+        <a id='='>=</a>
+      </div>
+    </div>
+  </main>
+  <script src="./calculator.js"></script>
+</body>
+</html>

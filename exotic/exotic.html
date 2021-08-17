@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href="exotic.css">
+  <title>Exotic Animals</title>
+</head>
+<body>
+  <header>
+    <h1>Exotic Animals</h1>
+  </header>
+
+  <main>
+    <div class='container'>
+      <figure class='item item-1'>
+        <img class='image' src='./resources/blackbuck.jpeg'>
+        <figcaption>TestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTesting</figcaption>
+      </figure>
+      <figure class='item item-2'>
+        <img class='image' src='./resources/genet.jpeg'>
+        <figcaption>TestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTesting</figcaption>
+      </figure>
+      <figure class='item item-3'>
+        <img class='image' src="./resources/golden_pheasant.jpeg">
+        <figcaption>TestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTestingTesting</figcaption>
+      </figure>
+      <figure class='item item-4'>
+        <img class='image' src="./resources/greater_bird_of_paradise.jpeg">
+        <figcaption>Testing</figcaption>
+      </figure>
+      <figure class='item item-5'>
+        <img class='image' src="./resources/lined_butterflyfish.jpeg">
+        <figcaption>Testing</figcaption>
+      </figure>
+      <figure class='item item-6'>
+        <img class='image' src="./resources/quetzal.jpeg">
+        <figcaption>Testing</figcaption>
+      </figure>
+      <figure class='item item-7'>
+        <img class='image' src="./resources/rainbow_lorikeet.jpeg">
+        <figcaption>Testing</figcaption>
+      </figure>
+      <figure class='item item-8'>
+        <img class='image' src="./resources/vampire_squid.jpeg">
+        <figcaption>Testing</figcaption>
+      </figure>
+    </div>
+  </main>
+
+  <script>
+    let container = document.querySelector('.container');
+    let timer;
+    container.addEventListener('mouseover', event => {
+      if (event.target.tagName === 'IMG') {
+        let figcaption = event.target.parentElement.querySelector('figcaption');
+        timer = setTimeout(e => {
+          figcaption.style.opacity = 1;
+        }, 2000)
+      }
+    });
+    
+    container.addEventListener('mouseout', event => {
+      if (event.target.tagName === 'IMG') {
+        clearInterval(timer);
+        let figcaption = event.target.parentElement.querySelector('figcaption');
+        figcaption.style.opacity = 0;
+      }
+    });
+  </script>
+</body>
+</html>

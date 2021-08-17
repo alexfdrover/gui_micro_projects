@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <style>
+    html, button {
+      background-color: #52be43;
+      color: white;
+    }
+    button {
+      border: none;
+      border-radius: 4px;
+      margin-top: 20px;
+      padding: 5px 15px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    h1 {
+      width: 50%;
+      margin: 0 auto;
+      font-size: 24px;
+    }
+    form {
+      width: 50%;
+      margin: 0 auto;
+      margin-top: 15px;
+      background-color: white;
+      color: black;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      padding-top: 20px;
+    }
+    fieldset {
+      border: none;
+    }
+    dd {
+      margin: 0;
+    }
+    dt {
+      padding: 20px 0px 5px 0px;
+    }
+    h1 {
+      margin-top: 70px;
+    }
+    input {
+      width: 300px;
+      height: 38px;
+      padding: 3px 10px;
+      outline: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+    }
+    .cc {
+      width: 47px;
+      text-align: center;
+    }
+    span {
+      margin-left: 30px;
+    }
+    .error-message {
+      color: #A93333;
+      opacity: 0;
+    }
+    .invalid_field {
+      border-color: #A93333;
+    }
+    p {
+      color: #A93333;
+      opacity: 0;
+    }
+    .valid_field {
+      border-color: #52be43;
+    }
+    .submittedForm > p{
+      opacity: 1;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sign Up Form</h1>
+  <form method='POST' action='#' novalidate>
+    <fieldset>
+      <p>Form cannot be submitted until errors are corrected.</p>
+      <dl>
+        <dt><label for='firstName'>First Name</label></dt>
+        <dd>
+          <input type='text' id='firstName' name='firstName' required>
+          <span class='error-message'>First Name is a required field.</span>
+        </dd>
+
+        <dt><label for='lastName'>Last Name</label></dt>
+        <dd>
+          <input type='text' id='lastName' name='lastName' required>
+          <span class='error-message'>Last Name is a required field.</span>
+        </dd>
+
+        <dt><label for='email'>Email</label></dt>
+        <dd>
+          <input type='email' id='email' name='email' placeholder="someone@example.com" required>
+          <span class='error-message'>Email is a required field.</span>
+        </dd>
+
+        <dt><label for='password'>Password</label></dt>
+        <dd>
+          <input type='password' id='password' name='password' minlength="10" required>
+          <span class='error-message'>Password is a required field.</span>
+        </dd>
+
+        <dt><label for='tel'>Phone Number</label></dt>
+        <dd>
+          <input type='tel' id='tel' name='tel' placeholder="555-555-5555">
+          <span class='error-message'>Please enter a valid phone number.</span>
+        </dd>
+        
+        <dt><label for='cc'>Credit Card</label></dt>
+        <dd>
+          <input type='cc' id='cc1' class='cc' name='cc1' placeholder="xxxx" maxlength="4" required> -
+          <input type='cc' id='cc2' class='cc' name='cc2' placeholder="xxxx" maxlength="4" required> -
+          <input type='cc' id='cc3' class='cc' name='cc3' placeholder="xxxx" maxlength="4" required> -
+          <input type='cc' id='cc4' class='cc' name='cc4' placeholder="xxxx" maxlength="4" required>
+          <span class='error-message'>Please enter a valid credit card.</span>
+        </dd>
+
+        <button type='submit'>Sign Up</button>
+      </dl>
+    </fieldset>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', event => {
+      function checkIfValid(value, type) {
+        let result;
+        switch (type) {
+          case 'text':
+            result = /[a-zA-Z'\s]/.test(value) && value.length > 0;
+            break;
+          case 'email':
+            result = /.+@.+/.test(value);
+            break;
+          case 'password':
+            result = value.length >= 10;
+            break;
+          case 'tel':
+            result = /[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(value);
+            if (value === '') result = true;
+            break;
+          case 'cc':
+            result = /[0-9]{4}/.test(value);
+            break;
+          default:
+            break;
+        }
+        return result;
+      }
+      
+      function validateInput(target) {
+        let isValid = checkIfValid(target.value, target.getAttribute('type'));
+        inputErrMsgHandler(isValid, target);
+      }
+
+      function inputErrMsgHandler(validity, target) {
+        let span = target.closest('dd').querySelector('span');
+        if (validity) {
+          target.classList.remove('invalid_field');
+          target.classList.add('valid_field');
+          span.style['opacity'] = 0;
+        } else {
+          target.classList.remove('valid_field');
+          target.classList.add('invalid_field');
+          span.style['opacity'] = 1;
+        }
+      }
+
+      function formErrMsgHandler() {
+        let p = document.querySelector('p');
+        let errorMessages = document.querySelectorAll('.error-message');
+        let errMsgArr = Array.prototype.slice.call(errorMessages);
+        
+        let inputErrsFound = errMsgArr.some(msg => {
+          return msg.style.opacity > 0;
+        });
+
+        if (inputErrsFound) {
+          p.style.opacity = 1;
+          return false;
+        } else {
+          p.style.opacity = 0;
+          return true;
+        }
+      }
+
+      function validateAllInputs() {
+        let inputs = document.querySelectorAll('input');
+        let inputArr = Array.prototype.slice.call(inputs);
+        inputArr.forEach(input => {
+          validateInput(input);
+        });
+      }
+
+      function formToObject(data) {
+        return Object.fromEntries(data.entries());
+      }
+
+      function generateURL(form) {
+        let data = new FormData(form);
+        let obj = formToObject(data);
+        obj.fullCC = obj.cc1 + obj.cc2 + obj.cc3 + obj.cc4;
+        delete obj.cc1;
+        delete obj.cc2;
+        delete obj.cc3;
+        delete obj.cc4;
+        let params = [];
+
+        Object.entries(obj).forEach(pair => {
+          let key = encodeURIComponent(`${pair[0]}`);
+          let value = encodeURIComponent(`${pair[1]}`);
+          params.push(`${key}=${value}`);
+        })
+        return params.join('\&');
+      }
+
+      function submitForm(form) {
+        let existingForm = document.querySelector('.submittedForm');
+        if (existingForm) existingForm.remove();
+
+        let div = document.createElement('div');
+        div.classList.add('submittedForm');
+
+        let h2 = document.createElement('h2');
+        h2.textContent = 'Serialized Form';
+
+        let p = document.createElement('p');
+        let params = generateURL(form);
+        p.textContent = params;
+
+        div.appendChild(h2);
+        div.appendChild(p);
+        form.appendChild(div);
+      }
+
+      let form = document.querySelector('form');
+      form.addEventListener('focusout', ({target}) => {
+        if (target.tagName === 'BUTTON') return;
+        validateInput(target);
+      });
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        validateAllInputs();
+        let submittable = formErrMsgHandler();
+        if (submittable) submitForm(form);
+      });
+
+      form.addEventListener('keydown', event => {
+        let id = event.target.getAttribute('id')
+        if (id === 'firstName' || id === 'lastName') {
+          if (!/[a-zA-Z'\s]/.test(event.key)) event.preventDefault();
+        } else if (event.target.classList.contains('cc')) {
+          let permittedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight'];
+          if (!/[0-9]/.test(event.key) && !permittedKeys.includes(event.key)) event.preventDefault();
+          if (event.target.value.length === 4 && !permittedKeys.includes(event.key)) event.target.nextElementSibling.focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

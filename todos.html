@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html {
+      background-color: rgb(34, 101, 67);
+    }
+    h1 {
+      color: white;
+    }
+    ul {
+      list-style: none;
+    }
+    li {
+      background-color: white;
+      margin: 1rem;
+      padding: 16px;
+      border-radius: 5px;
+    }
+    span.remove {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      right: 20px;
+      cursor: pointer;
+    }
+    
+    .confirm_prompt {
+      z-index: 6;
+      background-color: white;
+      height: 100px;
+      border-radius: 5px;
+      position: absolute;
+      right: 600px;
+      top: 200px;
+    }
+    .confirm_prompt p {
+      padding-top: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .actions {
+      display: block;
+      position: absolute;
+      right: 20px;
+      bottom: 10px;
+    }
+    .confirm_yes, .confirm_no {
+      background-color: black;
+      height: 25px;
+      width: 60px;
+      text-decoration: none;
+      color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .confirm_yes {
+      background: #9f1331;
+    }
+    .confirm_no {
+      background: #289f37;
+    }
+    .overlay {
+      position: absolute;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.3);
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+    }
+    #contextContainer {
+      position: absolute;
+      background-color: white;
+    }
+    #contextMenu {
+      margin: 0;
+      padding: 0;
+      width: 160px;
+    }
+    #contextMenu > li {
+      background-color: rgb(204, 204, 204);
+      margin: 0;
+      padding: 8px;
+      margin-bottom: 1px;
+      margin-top: 1px;
+      border-radius: 0;
+    }
+    #contextMenu > li:hover {
+      color: white;
+      background-color: rgb(170, 170, 170);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Todos</h1>
+    <ul></ul>
+    <div class='dialogue' style="display: none">
+      <div class='overlay'></div>
+      <div class='confirm_prompt'>
+        <p>Are you sure you want to delete this todo?</p>
+        <div class='actions'>
+          <a href='#' class='confirm_yes'>Yes</a>
+          <a href='#' class='confirm_no'>No</a>
+        </div>
+      </div>
+    </div>
+    <div id='contextContainer' style='display:none'>
+      <ul id='contextMenu'>
+        <li class='context editTodo'>Edit Todo</li>
+        <li class='context showDetails'>Show Details</li>
+        <li class='context deleteTodo'>Delete Todo</li>
+      </ul>
+    </div>
+  </main>
+
+  <script>
+    todo_items = [
+      { id: 1, title: 'Homework' },
+      { id: 2, title: 'Shopping' },
+      { id: 3, title: 'Calling Mom' },
+      { id: 4, title: 'Coffee with John '}
+    ];
+
+    class App {
+      constructor() {
+        this.renderTodos();
+      }
+
+      renderTodos() {
+        todo_items.forEach(todo => this.renderTodo(todo));
+
+        this.addListeners();
+      }
+
+      renderTodo(todo) {
+        let ul = document.querySelector('ul');
+
+        let li = document.createElement('li');
+        li.textContent = todo.title;
+        li.setAttribute('data-id', todo.id)
+        
+        let span = document.createElement('span');
+        span.classList.add('remove');
+        span.innerHTML = 'X';
+        
+        li.appendChild(span);
+        ul.appendChild(li);
+      }
+    
+      showDialogue() {
+        document.querySelector('.dialogue').style.display = 'block';
+      }
+
+      hideDialogue() {
+        document.querySelector('.dialogue').style.display = 'none';
+      }
+
+      clearSelection() {
+        document.querySelector('ul').removeAttribute('data-clicked-id');
+      }
+      
+      showContextMenu() {
+        let contextContainer = document.getElementById('contextContainer');
+        contextContainer.style.display = 'block';
+      }
+
+      hideContextMenu() {
+        let contextContainer = document.getElementById('contextContainer');
+        contextContainer.style.display = 'none';
+      }
+
+      deleteTodo() {
+        let ul = document.querySelector('ul');
+        let liId = ul.getAttribute('data-clicked-id');
+        let li = ul.querySelector(`[data-id="${liId}"]`);
+        ul.removeChild(li)
+      }
+
+      addListeners() {
+        let ul = document.querySelector('ul');
+        let yesBtn = document.querySelector('.confirm_yes');
+        let noBtn = document.querySelector('.confirm_no');
+        let contextContainer = document.getElementById('contextContainer');
+
+        ul.addEventListener('click', ({target}) => {
+          if (target.classList.contains('remove')) {
+            this.showDialogue();
+            let liClicked = target.closest('li').getAttribute('data-id');
+            ul.setAttribute('data-clicked-id', liClicked);
+          }
+        });
+
+        yesBtn.addEventListener('click', () => {
+          this.hideDialogue();
+          this.deleteTodo()
+          this.clearSelection;
+        });
+        
+        noBtn.addEventListener('click', () => {
+          this.hideDialogue();
+          this.clearSelection;
+        });
+      
+        ul.addEventListener('contextmenu', event => {
+          event.preventDefault();
+          let target = event.target;
+          if (target.tagName === 'LI') {
+            let liClicked = target.closest('li').getAttribute('data-id');
+            ul.setAttribute('data-clicked-id', liClicked);
+            this.showContextMenu();
+          }
+        });
+      
+        contextContainer.addEventListener('click', ({target}) => {
+          if (target.classList.contains('deleteTodo')) {
+            this.deleteTodo();
+            this.clearSelection()
+            this.hideContextMenu();
+          }
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new App();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cars</title>
+  <style>
+    html {
+      background-color: white;
+    }
+    #searchCategories {
+      list-style: none;
+    }
+    li {
+      display: inline;
+      margin-right: 5px;
+    }
+    header {
+      background-color: #ce9232;
+      color: white;
+      box-sizing: border-box;
+      padding: 20px;
+    }
+    h3, ul {
+      padding-left: 15px;
+    }
+    #grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+    }
+    figure {
+      font-size: 0.9rem;
+      margin-left: 0;
+      object-fit: cover;
+      overflow: hidden;
+      width: 100%;
+      max-height: 100%;
+    }
+    img {
+      width: 100%;
+    }
+    h2, p {
+      padding: 0;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h3>Buy Used Cars</h3>
+    <form action='#'>
+      <ul id='searchCategories'>
+        <li id='make' class='category'>
+          <label for='make'>Make</label>
+          <select name='make'>
+            <option value='All' selected>All</option>
+          </select>
+        </li>
+        <li id='model' class='category'>
+          <label for='model'>Model</label>
+          <select name='model'>
+            <option value='All' selected>All</option>
+          </select>
+        </li>
+        <li id='price' class='category'>
+          <label for='price'>Price</label>
+          <select name='price'>
+            <option value='All' selected>All</option>
+          </select>
+        </li>
+        <li id='year' class='category'>
+          <label for='year'>Year</label>
+          <select name='year'>
+            <option value='All' selected>All</option>
+          </select>
+        </li>
+        <li>
+          <button id='submitBtn'>Filter</button>
+        </li>
+      </ul>
+      
+    </form>
+  </header>
+  <main>
+    <div id="grid"></div>
+  </main>
+  <script src='./cars.js'></script>
+</body>
+</html>

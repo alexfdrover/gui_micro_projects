@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <title>Stopwatch</title>
+  <style>
+    html {
+      background-color: #a19123;
+    }
+    main {
+      height: 500px;
+
+    }
+    .button {
+      background-color: #a19123;
+      color: white;
+      border: 1px solid white;
+      padding: 5px 15px;
+      margin-inline: 10px;
+      border-radius: 3px;
+    }
+    #buttons, #stopwatch {
+      display: flex;
+      justify-content: center;
+    }
+    #stopwatch {
+      font-size: 72px;
+      font-family: sans-serif;
+      color: white;
+      font-weight: bold;
+      margin-top: 15%;
+      margin-bottom: 10px;
+    }
+    
+  </style>
+</head>
+<body>
+  <main>
+    <div id='buttons'>
+      <button id='controlBtn' class='button'>Start</button>
+      <button id='resetBtn' class='button'>Reset</button>
+    </div>
+  </main>
+
+  <script id='stopwatch-template' type='text/x-handlebars-template'>
+    <div id='stopwatch'>{{hours}}:{{minutes}}:{{seconds}}:{{centiseconds}}</div>
+  </script>
+
+  <script src="./stopwatch.js"></script>
+</body>
+</html>
